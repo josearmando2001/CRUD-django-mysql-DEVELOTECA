@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+  
+    <!-- Favicons -->
+    <link href="{% static 'assets/' %}img/favicon.png" rel="icon">
+    <link href="{% static 'assets/' %}img/apple-touch-icon.png" rel="apple-touch-icon">
+  
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/' %}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'assets/' %}vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'assets/' %}vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="{% static 'assets/' %}vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="{% static 'assets/' %}vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="{% static 'assets/' %}vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="{% static 'assets/' %}vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/' %}css/style.css" rel="stylesheet">
+</head>
+<body>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">General Form Elements</h5>   
+                        <form enctype="multipart/form-data" method="POST">
+                            {% csrf_token %}
+                            {% for campo in formulario %}
+                            <div class="row mb-3">
+                                <label for="inputEmail" class="col-sm-2 col-form-label">{{ campo.label }}:</label>
+                                {% if campo.field.widget.input_type == 'file' and campo.value %}
+                                <br />
+                                <img src="{{MEDIA_URL}}/imagenes/{{ campo.value }}" width="100" alt="" srcset="">
+                                {% endif %}
+                                <input  type="{{ campo.field.widget.input_type }}" class="form-control"
+                                    name="{{ campo.name }}" id="" aria-describedby="helpId"
+                                    placeholder="{{ campo.label }}" value="{{ campo.value | default:'' }}" />
+                            </div>
+                            <div class="col-12 help-text">{{ campo.errors }}</div>
+                            {% endfor %}
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Submit Button</label>
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit Form</button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+</body>
+
+</html>
